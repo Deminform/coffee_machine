@@ -74,8 +74,3 @@ while True:
         break
     else:
         check_transaction(choice)
-
-
-
-
-
