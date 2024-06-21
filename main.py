@@ -10,7 +10,7 @@ def print_report():
 
 
 # Check resources sufficient
-def check_resources(request: str) -> bool:
+def is_resource_sufficient(request: str) -> bool:
     for key, value in MENU[request]['ingredients'].items():
         if key in resources:
             if resources[key] < value:
@@ -31,10 +31,10 @@ def calc_coins() -> int:
 
 
 # Check transaction successful
-def check_transaction(request: str):
-    if check_resources(request):
+def start_transaction(request: str):
+    if is_resource_sufficient(request):
         amount = calc_coins()
-        if refund_check(request, amount):
+        if is_money_sufficient(request, amount):
             price = MENU[request]['cost']
             if 'money' not in resources:
                 resources['money'] = price
@@ -44,7 +44,7 @@ def check_transaction(request: str):
 
 
 # Refund
-def refund_check(request: str, amount: int):
+def is_money_sufficient(request: str, amount: int):
     price = MENU[request]['cost']
     if amount > price:
         change = amount - price
@@ -73,4 +73,5 @@ while True:
     elif choice == 'off':
         break
     else:
-        check_transaction(choice)
+        start_transaction(choice)
+
